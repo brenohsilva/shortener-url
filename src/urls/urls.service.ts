@@ -52,6 +52,17 @@ export class UrlsService {
       throw new NotFoundError('URL not found or expired');
     }
 
+    await this.prisma.url.update({
+      where: {
+        id: original_url.id,
+      },
+      data: {
+        clicks: {
+          increment: 1,
+        },
+      },
+    });
+
     return original_url.originalUrl;
   }
 }

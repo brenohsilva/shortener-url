@@ -18,6 +18,9 @@ describe('UrlsService', () => {
         deletedAt: null,
         expiresAt: null,
       }),
+      update: jest.fn().mockResolvedValue({
+        clicks: 1,
+      }),
     },
   };
 
