@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { PrismaService } from 'src/prisma.service';
 import { generateDeterministicCode } from 'src/utils/generate-unique-code';
+import { NotFoundError } from 'src/errors/not-found-error';
 
 @Injectable()
 export class UrlsService {
@@ -46,8 +47,9 @@ export class UrlsService {
         OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }],
       },
     });
+
     if (!original_url) {
-      throw new Error('URL not found or expired');
+      throw new NotFoundError('URL not found or expired');
     }
 
     return original_url.originalUrl;
