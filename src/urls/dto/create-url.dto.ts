@@ -1,1 +1,17 @@
-export class CreateUrlDto {}
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+
+export class CreateUrlDto {
+  @IsUrl(
+    {
+      require_protocol: true,
+      require_valid_protocol: true,
+    },
+    {
+      message:
+        'Invalid URL format. Please provide a valid URL starting with http:// or https://',
+    },
+  )
+  @IsString()
+  @IsNotEmpty()
+  original_url: string;
+}
