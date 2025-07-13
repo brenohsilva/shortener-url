@@ -62,7 +62,6 @@ export class UrlsService {
         },
       },
     });
-
-    return original_url.originalUrl;
+    return { url: original_url.originalUrl };
   }
 }
