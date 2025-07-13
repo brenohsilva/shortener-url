@@ -48,7 +48,9 @@ describe('UrlsService', () => {
   });
 
   it('should redirect to the original URL', async () => {
-    expect(await service.redirect('SHORTC')).toEqual('https://example.com');
+    expect(await service.redirect('SHORTC')).toEqual({
+      url: 'https://example.com',
+    });
   });
 
   it('should throw NotFoundError if URL does not exist', async () => {

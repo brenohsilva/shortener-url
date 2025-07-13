@@ -1,6 +1,11 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class CreateUrlDto {
+  @ApiProperty({
+    example: 'https://example.com',
+    description: 'Url the should be shortened',
+  })
   @IsUrl(
     {
       require_protocol: true,
