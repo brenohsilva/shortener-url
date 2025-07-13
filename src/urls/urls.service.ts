@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { PrismaService } from 'src/prisma.service';
-import { generateDeterministicCode } from 'src/utils/generate-unique-code';
-import { NotFoundError } from 'src/errors/not-found-error';
+import { PrismaService } from '../prisma.service';
+import { generateDeterministicCode } from '../utils/generate-unique-code';
+import { NotFoundError } from '../errors/not-found-error';
 
 @Injectable()
 export class UrlsService {
