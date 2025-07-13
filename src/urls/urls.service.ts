@@ -1,28 +1,68 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { UpdateUrlDto } from './dto/update-url.dto';
+import { PrismaService } from '../prisma.service';
+import { generateDeterministicCode } from '../utils/generate-unique-code';
+import { NotFoundError } from '../errors/not-found-error';
 
 @Injectable()
 export class UrlsService {
-  create(createUrlDto: CreateUrlDto) {
-    console.log('Creating URL with data:', createUrlDto);
-    return 'This action adds a new url';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createUrlDto: CreateUrlDto) {
+    const base_url = process.env.BASE_URL;
+
+    const short_code = generateDeterministicCode(createUrlDto.original_url);
+    const short_url = `${base_url}/${short_code}`;
+
+    const existingUrl = await this.prisma.url.findUnique({
+      where: {
+        shortCode: short_code,
+      },
+    });
+
+    if (existingUrl) {
+      return {
+        short_url: existingUrl.shortUrl,
+      };
+    }
+
+    const newUrl = await this.prisma.url.create({
+      data: {
+        originalUrl: createUrlDto.original_url,
+        shortCode: short_code,
+        shortUrl: short_url,
+      },
+    });
+
+    return {
+      short_url: newUrl.shortUrl,
+    };
   }
 
-  findAll() {
-    return `This action returns all urls`;
-  }
+  async redirect(short_code: string) {
+    const original_url = await this.prisma.url.findFirst({
+      where: {
+        shortCode: short_code,
+        deletedAt: null,
+        OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }],
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} url`;
-  }
+    if (!original_url) {
+      throw new NotFoundError('URL not found or expired');
+    }
 
-  update(id: number, updateUrlDto: UpdateUrlDto) {
-    console.log('Updating URL with ID:', id, 'and data:', updateUrlDto);
-    return `This action updates a #${id} url`;
-  }
+    await this.prisma.url.update({
+      where: {
+        id: original_url.id,
+      },
+      data: {
+        clicks: {
+          increment: 1,
+        },
+      },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} url`;
+    return original_url.originalUrl;
   }
 }
