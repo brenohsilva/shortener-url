@@ -43,8 +43,6 @@ describe('UrlsController', () => {
   });
 
   it('should redirect to the original URL', async () => {
-    expect(await controller.redirect('SHORTC')).toEqual({
-      url: 'https://example.com',
-    });
+    expect(await controller.redirect('SHORTC')).toEqual('https://example.com');
   });
 });
