@@ -71,6 +71,21 @@ export class UsersService {
     return new UserPresenter(user);
   }
 
+  async findOneByEmail(email: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email,
+        deletedAt: null,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.prisma.user.findFirst({
       where: {
