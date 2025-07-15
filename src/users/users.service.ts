@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  HttpException,
+  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -41,8 +43,8 @@ export class UsersService {
     return new UserPresenter(user);
   }
 
-  findAll() {
-    return this.prisma.user.findMany({
+  async findAll() {
+    const users = await this.prisma.user.findMany({
       where: {
         deletedAt: null,
       },
@@ -54,6 +56,12 @@ export class UsersService {
         updatedAt: true,
       },
     });
+
+    if (UsersService.length === 0) {
+      throw new HttpException('', HttpStatus.NO_CONTENT);
+    }
+
+    return users;
   }
 
   async findOne(id: number) {
