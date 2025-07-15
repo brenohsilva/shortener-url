@@ -1,7 +1,17 @@
-import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -9,8 +19,9 @@ export class AuthController {
 
   @ApiOperation({ summary: 'User login' })
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  signIn(@Body() loginDto: LoginDto) {
-    return this.authService.signIn(loginDto);
+  login(@Request() req: any) {
+    return this.authService.login(req.user);
   }
 }
