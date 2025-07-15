@@ -4,7 +4,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ForbiddenException, ValidationPipe } from '@nestjs/common';
-import { UserNotFoundErrorFilter } from './filters/not-found-error/not-found-error.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -29,8 +28,6 @@ async function bootstrap() {
       'CORS_ALLOWED_ORIGINS não está definido. CORS não está habilitado.',
     );
   }
-
-  app.useGlobalFilters(new UserNotFoundErrorFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
