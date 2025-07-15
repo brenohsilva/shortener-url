@@ -1,8 +1,16 @@
-# Encurtador de URL - Versão 0.1.0
+# Encurtador de URL - Versão 0.2.0
 
 Este é um serviço de API REST para encurtamento de URLs, construído com NestJS, Prisma e PostgreSQL
 
 ## Recursos Implementados (v0.2.0)
+
+- Criação de Usuários.
+
+- Autenticação.
+
+- Atualização, remoção e listagem de usuários (Somente autenticado).
+
+# Recursos Atuais
 
 - Criação de URLs encurtadas a partir de uma URL original.
 
@@ -11,6 +19,12 @@ Este é um serviço de API REST para encurtamento de URLs, construído com NestJ
 - Ambiente de desenvolvimento totalmente containerizado com Docker Compose.
 
 - Documentação inicial da API disponível via Swagger (OpenAPI).
+
+- Criação de Usuários.
+
+- Autenticação.
+
+- Atualização, remoção e listagem de usuários (Somente autenticado).
 
 ## Como Começar
 
@@ -29,6 +43,7 @@ Crie um novo arquivo chamado .env e copie o contéudo abaixo para dentro desse a
 DATABASE_URL="mysql://root:root@localhost:4306/url-db"
 BASE_URL="http://localhost:3000"
 CORS_ALLOWED_ORIGINS=http://localhost:3000
+JWT_SECRET='TeddyOpenFinance'
 ```
 **Inicie a aplicação com Docker Compose:**
 Este comando irá construir as imagens Docker, iniciar os contêineres do banco de dados e da API, e aplicar as migrações do banco de dados automaticamente.
