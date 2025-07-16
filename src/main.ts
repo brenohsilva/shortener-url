@@ -4,8 +4,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ForbiddenException, ValidationPipe } from '@nestjs/common';
-import { UserNotFoundErrorFilter } from './filters/not-found-error/not-found-error.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NoContentInterceptor } from './common/not-content.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,8 +30,6 @@ async function bootstrap() {
     );
   }
 
-  app.useGlobalFilters(new UserNotFoundErrorFilter());
-
   app.useGlobalPipes(
     new ValidationPipe({
       errorHttpStatusCode: 422,
@@ -40,6 +38,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  app.useGlobalInterceptors(new NoContentInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Shortener Url API')

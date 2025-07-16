@@ -41,19 +41,14 @@ export class UsersService {
     return new UserPresenter(user);
   }
 
-  findAll() {
-    return this.prisma.user.findMany({
+  async findAll() {
+    const users = await this.prisma.user.findMany({
       where: {
         deletedAt: null,
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
+
+    return users.map((url) => new UserPresenter(url));
   }
 
   async findOne(id: number) {
@@ -123,7 +118,6 @@ export class UsersService {
       },
       select: {
         id: true,
-        password: true,
       },
     });
 
