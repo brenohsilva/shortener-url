@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   ExceptionFilter,
   Catch,
@@ -22,22 +25,31 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception instanceof Error ? exception.message : 'Internal server error';
-
-    const stack = exception instanceof Error ? exception.stack : undefined;
-
-    const errorResponse = {
+    let message: string | string[] = 'Internal server error';
+    let responseBody: any = {
       statusCode: status,
-      message: message,
     };
 
+    if (exception instanceof HttpException) {
+      const res = exception.getResponse();
+      if (typeof res === 'string') {
+        message = res;
+      } else if (typeof res === 'object' && res !== null) {
+        message = (res as any).message ?? message;
+        responseBody = { ...responseBody, ...(res as object) };
+      }
+    } else if (exception instanceof Error) {
+      message = exception.message;
+    }
+
+    responseBody.message = message;
+
     this.logger.error(
-      `[${request.method}] ${request.url} - Status: ${status} - Message: ${message}`,
-      stack,
+      `[${request.method}] ${request.url} - Status: ${status} - Message: ${JSON.stringify(message)}`,
+      exception instanceof Error ? exception.stack : undefined,
       'ExceptionFilter',
     );
 
-    response.status(status).json(errorResponse);
+    response.status(status).json(responseBody);
   }
 }

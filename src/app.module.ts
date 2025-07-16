@@ -1,16 +1,20 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { UrlsModule } from './urls/urls.module';
 import { AuthModule } from './auth/auth.module';
-import { LoggerMiddleware } from './common/middleware/logger.middleware';
+
+import { LoggerModule } from 'nestjs-pino';
+import { CustomLogger } from './custom.logger';
 
 @Module({
-  imports: [UsersModule, UrlsModule, AuthModule],
+  imports: [
+    UsersModule,
+    UrlsModule,
+    AuthModule,
+    LoggerModule.forRoot({ pinoHttp: { level: 'trace' } }),
+  ],
   controllers: [],
-  providers: [],
+  providers: [CustomLogger],
+  exports: [CustomLogger],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}
