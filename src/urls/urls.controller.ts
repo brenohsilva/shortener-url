@@ -14,12 +14,13 @@ import {
 } from '@nestjs/common';
 import { UrlsService } from './urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { OptionalAuthGuard } from '../common/guards/optional-auth.guard';
 
 @ApiResponse({ status: 403, description: 'Origin not allowed by CORS' })
+@ApiBearerAuth()
 @Controller()
 export class UrlsController {
   constructor(private readonly urlsService: UrlsService) {}

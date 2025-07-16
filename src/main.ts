@@ -47,6 +47,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Shortener Url API')
     .setDescription('Shortener Url API')
+    .addBearerAuth()
     .setVersion('0.3.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
