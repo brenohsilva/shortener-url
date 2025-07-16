@@ -1,9 +1,13 @@
-# [0.3.1](https://github.com/brenohsilva/shortener-url/compare/v0.3.0...v0.3.1) (2025-07-16)
+# [1.0.0](https://github.com/brenohsilva/shortener-url/compare/v0.3.1...v1.0.0) (2025-07-16)
+
 
 ### Features
 
-* add logs in the services of the application ([02a31ca](https://github.com/brenohsilva/shortener-url/commit/02a31ca106837057af6bc10fa23a11a1e6ef1a63))
+* add bearer auth to protected routes swagger  documentation ([23110f2](https://github.com/brenohsilva/shortener-url/commit/23110f24eda695aebaa575f4d9c833ba8745a6dc))
 * add logger middleware and filters to handle with specific logs ([f6561bb](https://github.com/brenohsilva/shortener-url/commit/f6561bbc89fae08d7a649c95b1d521e224ac85c0))
+* add logs in the services of the application ([02a31ca](https://github.com/brenohsilva/shortener-url/commit/02a31ca106837057af6bc10fa23a11a1e6ef1a63))
+
+
 
 # [0.3.0](https://github.com/brenohsilva/shortener-url/compare/v0.2.1...v0.3.0) (2025-07-16)
 
@@ -19,9 +23,7 @@
 * implementing not content interceptor to handle with empty arrays ([4ce1ff1](https://github.com/brenohsilva/shortener-url/commit/4ce1ff14e0071d13d46ac9da8743b61cee7b4899))
 * using nest passport to authentication and authorization ([c8796e7](https://github.com/brenohsilva/shortener-url/commit/c8796e780f1a3378558a3e8c60b1b1272285b82b))
 
-### Dependences
 
-* add nest/passport dependence ([3dcbcb5](https://github.com/brenohsilva/shortener-url/commit/3dcbcb5f20343321da7d1abb44f48557466aec4e))
 
 # [0.2.0](https://github.com/brenohsilva/shortener-url/compare/v0.1.0...v0.2.0) (2025-07-15)
 
@@ -32,10 +34,6 @@
 * implementing auth guard to protect user routes ([2a0b523](https://github.com/brenohsilva/shortener-url/commit/2a0b5233b75bfb1b018434f14fa0716c390679b4))
 * implementing authentication ([05d71ec](https://github.com/brenohsilva/shortener-url/commit/05d71ecfeef884045c654c1e3e25344c1ddcb3be))
 * implementing user routess ([2716aed](https://github.com/brenohsilva/shortener-url/commit/2716aed0b08ca1671640f7a2a6f468691df95508))
-
-### Dependences
-* add nest/jwt dependence ([a85e696](https://github.com/brenohsilva/shortener-url/commit/a85e696e797f3bd048806236cc8fef0aa5054cc9))
-* add add bcrypt dependence ([1fcf3d6](https://github.com/brenohsilva/shortener-url/commit/1fcf3d68a24982a5c54e2d57314a6e6c18289d73))
 
 
 
@@ -52,11 +50,8 @@
 * create user resource ([29309fb](https://github.com/brenohsilva/shortener-url/commit/29309fb0b77296e31e6dd0b950dd48d8eb081929))
 * implementing swagger documentation to url resource ([0721a23](https://github.com/brenohsilva/shortener-url/commit/0721a23a6bef13cb6db722198fa4bada697bf6b1))
 * increment clicks count when redirect ([ac66277](https://github.com/brenohsilva/shortener-url/commit/ac6627754436f4c8fbc548ae18ab4a6ce92fab43))
-* using custom error and filter ([efbb49e](https://github.com/brenohsilva/shortener-url/commit/efbb49e711b07734c3b7cd4363ed1b71c1b0ad57))
 * setup initial schema and migrations with prisma ([2fe83dc](https://github.com/brenohsilva/shortener-url/commit/2fe83dc3d9b036d7439c530b1e686f43f1b2c1cb))
+* using custom error and filter ([efbb49e](https://github.com/brenohsilva/shortener-url/commit/efbb49e711b07734c3b7cd4363ed1b71c1b0ad57))
 
-#### Dependences
 
-* add nest-swagger dependency ([cf4268d](https://github.com/brenohsilva/shortener-url/commit/cf4268dd8ab068cdc6646f8b31e287bbc5b5a83c))
-* add class-validator and class transformer to the dependencies ([d8e01f1](https://github.com/brenohsilva/shortener-url/commit/d8e01f104abb2e983c593f664eb3b7e7e3363d6f))
-* add pre-commit hooks with husky and lint-staged ([3fce98f](https://github.com/brenohsilva/shortener-url/commit/3fce98fa6e7007f651a44e25b0834c7419562790))
+
