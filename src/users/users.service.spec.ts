@@ -117,13 +117,6 @@ describe('UsersService', () => {
     await service.findAll();
     expect(mockPrismaService.user.findMany).toHaveBeenCalledWith({
       where: { deletedAt: null },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
   });
 
