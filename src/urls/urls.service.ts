@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { PrismaService } from '../prisma.service';
 import { generateUniqueCode } from '../utils/generate-unique-code';
@@ -10,7 +10,7 @@ import { UrlPresenter } from './url.presenter';
 @Injectable()
 export class UrlsService {
   constructor(private prisma: PrismaService) {}
-
+  private readonly logger = new Logger(UrlsService.name);
   async create(createUrlDto: CreateUrlDto, user: any) {
     const userId = user?.id ?? null;
     const baseUrl = process.env.BASE_URL;
@@ -29,6 +29,9 @@ export class UrlsService {
         expiresAt: userId ? null : new Date(Date.now() + 30 * 60 * 1000),
       },
     });
+    this.logger.log(
+      `Shortener URL created: ${newUrl.shortUrl} by ${userId ? 'User with ID ' + userId : 'anonymous'}`,
+    );
 
     return {
       short_url: newUrl.shortUrl,
@@ -63,21 +66,20 @@ export class UrlsService {
           },
         },
       });
-
+      this.logger.log(`The URL ${originalUrl.originalUrl} was accessed`);
       return { url: originalUrl.originalUrl };
     });
   }
 
   async findAll(user: any) {
     const userId = user?.id ?? null;
-
     const urls = await this.prisma.url.findMany({
       where: {
         userId,
         deletedAt: null,
       },
     });
-
+    this.logger.log(`The User with ID ${userId} Listed ${urls.length} URLs`);
     return urls.map((url) => new UrlPresenter(url));
   }
 
@@ -101,6 +103,9 @@ export class UrlsService {
 
   async update(id: string, updateUrlDto: UpdateUrlDto, user: any) {
     const userId = user?.id;
+    this.logger.warn(
+      `Trying to update a URL by ${'the User with ID ' + userId}`,
+    );
 
     const url = await this.prisma.url.findFirst({
       where: {
@@ -114,6 +119,7 @@ export class UrlsService {
     });
 
     if (!url) {
+      this.logger.error(`failed to update an URL, URL does not exists`);
       throw new NotFoundException('URL not found');
     }
 
@@ -123,13 +129,17 @@ export class UrlsService {
         originalUrl: updateUrlDto.original_url,
       },
     });
-
+    this.logger.log(
+      `Origin URl Updated to ${newUrl.originalUrl} by the User with ID ${userId}`,
+    );
     return new UrlPresenter(newUrl);
   }
 
   async remove(id: string, user: any) {
     const userId = user?.id;
-
+    this.logger.warn(
+      `Trying to delete a URL by ${' the User with ID' + userId || 'anonymous'}`,
+    );
     const url = await this.prisma.url.findFirst({
       where: {
         id,
@@ -149,7 +159,9 @@ export class UrlsService {
       where: { id },
       data: { deletedAt: new Date() },
     });
-
+    this.logger.log(
+      `The URL was deleted successfully by the User with ID ${userId}`,
+    );
     return;
   }
 }

@@ -75,7 +75,7 @@ describe('UsersController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should create a user', async () => {
+  it('should create an User', async () => {
     expect(await controller.create(createUserDto)).toEqual({
       id: 1,
       name: createUserDto.name,
@@ -85,7 +85,7 @@ describe('UsersController', () => {
     });
   });
 
-  it('should find all users', async () => {
+  it('should find all Users', async () => {
     expect(await controller.findAll()).toEqual([
       {
         id: 1,
@@ -97,7 +97,7 @@ describe('UsersController', () => {
     ]);
   });
 
-  it('should find a user by id', async () => {
+  it('should find an User by id', async () => {
     expect(await controller.findOne('1')).toEqual({
       id: 1,
       name: 'John Doe',
@@ -107,7 +107,7 @@ describe('UsersController', () => {
     });
   });
 
-  it('should update a user', async () => {
+  it('should update an User', async () => {
     const updateUserDto = { name: 'Jane Doe' };
     expect(await controller.update('1', { name: updateUserDto.name })).toEqual({
       id: 1,
@@ -118,7 +118,7 @@ describe('UsersController', () => {
     });
   });
 
-  it('should delete a user', async () => {
+  it('should delete an User', async () => {
     expect(await controller.remove('1')).toBeUndefined();
   });
 });

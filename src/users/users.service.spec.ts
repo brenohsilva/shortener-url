@@ -140,7 +140,7 @@ describe('UsersService', () => {
     });
   });
 
-  it('should update a user', async () => {
+  it('should update an user', async () => {
     mockPrismaService.user.findFirst.mockResolvedValue({
       id: 1,
       password: 'old_hash',
@@ -178,7 +178,7 @@ describe('UsersService', () => {
     await expect(service.update(1, dto)).rejects.toThrow(NotFoundException);
   });
 
-  it('should soft delete a user', async () => {
+  it('should soft delete an user', async () => {
     mockPrismaService.user.findFirst.mockResolvedValue({
       id: 1,
       password: 'hash',

@@ -31,6 +31,10 @@ export class UrlsController {
     status: 201,
     description: 'The URL has been successfully created.',
   })
+  @ApiResponse({
+    status: 409,
+    description: 'User with the email already exists.',
+  })
   create(@Body() createUrlDto: CreateUrlDto, @Request() req: any) {
     return this.urlsService.create(createUrlDto, req.user);
   }
@@ -44,7 +48,7 @@ export class UrlsController {
   })
   @ApiResponse({
     status: 204,
-    description: 'Any URL was found',
+    description: 'No URL was found',
   })
   @ApiResponse({
     status: 401,

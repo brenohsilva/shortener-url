@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -11,6 +11,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  private readonly logger = new Logger(AuthService.name);
+
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByEmail(email);
     if (user && bcrypt.compareSync(pass, user.password)) {
@@ -18,12 +20,16 @@ export class AuthService {
       const { password, ...result } = user;
       return result;
     }
+    this.logger.warn(`failed to authenticated with the email ${email}`);
     return null;
   }
 
   login(user: AuthenticatedUserDto) {
     const payload = { sub: user.id, email: user.email };
     const bearerToken = this.jwtService.sign(payload);
+    this.logger.log(
+      `User authenticated successfully with the email ${user.email}`,
+    );
     return {
       token: bearerToken,
     };

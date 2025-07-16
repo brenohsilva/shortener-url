@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -12,6 +13,9 @@ import { UserPresenter } from './user.presenter';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private readonly logger = new Logger(UsersService.name);
+
   async create(createUserDto: CreateUserDto) {
     const existingUser = await this.prisma.user.findFirst({
       where: { email: createUserDto.email },
@@ -19,6 +23,9 @@ export class UsersService {
 
     if (existingUser) {
       if (!existingUser?.deletedAt) {
+        this.logger.warn(
+          `failed to create an user with the email ${existingUser.email}, User already exists`,
+        );
         throw new ConflictException('User with this email already exists');
       } else if (existingUser?.deletedAt) {
         const restoredUser = await this.prisma.user.update({
@@ -27,6 +34,9 @@ export class UsersService {
             deletedAt: null,
           },
         });
+        this.logger.log(
+          `User Restored successfully with the email ${restoredUser.email}`,
+        );
         return new UserPresenter(restoredUser);
       }
     }
@@ -38,6 +48,7 @@ export class UsersService {
       },
     });
 
+    this.logger.log(`User Created successfully with the email ${user.email}`);
     return new UserPresenter(user);
   }
 
@@ -82,6 +93,7 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    this.logger.log(`Trying update an User with id ${id}`);
     const user = await this.prisma.user.findFirst({
       where: {
         id,
@@ -94,10 +106,11 @@ export class UsersService {
     });
 
     if (!user) {
+      this.logger.error(`failed to update an User, User does not exists`);
       throw new NotFoundException('User not found');
     }
 
-    const new_user = await this.prisma.user.update({
+    const newUser = await this.prisma.user.update({
       where: { id },
       data: {
         ...updateUserDto,
@@ -106,11 +119,14 @@ export class UsersService {
           : user.password,
       },
     });
-
-    return new UserPresenter(new_user);
+    this.logger.log(
+      `The user with the email ${newUser.email} was updated successfully `,
+    );
+    return new UserPresenter(newUser);
   }
 
   async remove(id: number) {
+    this.logger.log(`Trying delete an user with id ${id}`);
     const user = await this.prisma.user.findFirst({
       where: {
         id,
@@ -122,6 +138,7 @@ export class UsersService {
     });
 
     if (!user) {
+      this.logger.warn(`failed to delete an user, User does not exists`);
       throw new NotFoundException('User not found');
     }
 
@@ -131,6 +148,9 @@ export class UsersService {
         deletedAt: new Date(),
       },
     });
+    this.logger.log(
+      `The user with the id ${user.id} was deleted successfully `,
+    );
     return;
   }
 }
