@@ -10,12 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './dto/login.dto';
 
@@ -27,7 +22,6 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @HttpCode(HttpStatus.OK)
   @ApiBody({ type: LoginDto })
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'User login' })
   @ApiResponse({
     status: 200,
