@@ -1,14 +1,17 @@
-# Encurtador de URL - Versão 0.2.0
+# Encurtador de URL - Versão 0.3.0
 
 Este é um serviço de API REST para encurtamento de URLs, construído com NestJS, Prisma e PostgreSQL
 
-## Recursos Implementados (v0.2.0)
+## Recursos Implementados (v0.3.0)
 
-- Criação de Usuários.
+- Operações de usuário (Listar, atualizar, deletar) no encurtador URL.
 
-- Autenticação.
+- Novos testes unitários para URL Controller e URL Service.
 
-- Atualização, remoção e listagem de usuários (Somente autenticado).
+- Atualização da documentação Swagger de todos os recursos.
+
+- Tratamento de retornos de arrays vazios com Interceptor.
+
 
 # Recursos Atuais
 
@@ -25,6 +28,14 @@ Este é um serviço de API REST para encurtamento de URLs, construído com NestJ
 - Autenticação.
 
 - Atualização, remoção e listagem de usuários (Somente autenticado).
+
+- Operações de usuário (Listar, atualizar, deletar) no encurtador URL.
+
+- Novos testes unitários para URL Controller e URL Service.
+
+- Atualização da documentação Swagger de todos os recursos.
+
+- Tratamento de retornos de arrays vazios com Interceptor.
 
 ## Como Começar
 
