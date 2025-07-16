@@ -3,12 +3,22 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ForbiddenException, ValidationPipe } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  ForbiddenException,
+  ValidationPipe,
+} from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NoContentInterceptor } from './common/not-content.interceptor';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger('MyApi', {
+      json: true,
+      timestamp: true,
+    }),
+  });
 
   const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS;
   if (allowedOrigins) {
@@ -40,11 +50,12 @@ async function bootstrap() {
   );
 
   app.useGlobalInterceptors(new NoContentInterceptor());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Shortener Url API')
     .setDescription('Shortener Url API')
-    .setVersion('0.1.0')
+    .setVersion('0.3.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
