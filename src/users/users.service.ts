@@ -106,7 +106,7 @@ export class UsersService {
     });
 
     if (!user) {
-      this.logger.warn(`failed to update an User, User does not exists`);
+      this.logger.error(`failed to update an User, User does not exists`);
       throw new NotFoundException('User not found');
     }
 

@@ -104,7 +104,7 @@ export class UrlsService {
   async update(id: string, updateUrlDto: UpdateUrlDto, user: any) {
     const userId = user?.id;
     this.logger.warn(
-      `Trying to update a URL by ${' the User with ID' + userId || 'anonymous'}`,
+      `Trying to update a URL by ${'the User with ID ' + userId}`,
     );
 
     const url = await this.prisma.url.findFirst({
@@ -119,6 +119,7 @@ export class UrlsService {
     });
 
     if (!url) {
+      this.logger.error(`failed to update an URL, URL does not exists`);
       throw new NotFoundException('URL not found');
     }
 
