@@ -1,7 +1,5 @@
 import {
   ConflictException,
-  HttpException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -48,20 +46,9 @@ export class UsersService {
       where: {
         deletedAt: null,
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
-    if (UsersService.length === 0) {
-      throw new HttpException('', HttpStatus.NO_CONTENT);
-    }
-
-    return users;
+    return users.map((url) => new UserPresenter(url));
   }
 
   async findOne(id: number) {
@@ -131,7 +118,6 @@ export class UsersService {
       },
       select: {
         id: true,
-        password: true,
       },
     });
 
