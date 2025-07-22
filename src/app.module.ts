@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { UrlsModule } from './urls/urls.module';
-import { AuthModule } from './auth/auth.module';
+import { UrlsModule } from './modules/urls/urls.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 import { LoggerModule } from 'nestjs-pino';
 import { CustomLogger } from './custom.logger';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [

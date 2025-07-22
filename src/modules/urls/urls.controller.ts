@@ -17,7 +17,7 @@ import { CreateUrlDto } from './dto/create-url.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { OptionalAuthGuard } from '../common/guards/optional-auth.guard';
+import { OptionalAuthGuard } from '../../common/guards/optional-auth.guard';
 
 @ApiResponse({ status: 403, description: 'Origin not allowed by CORS' })
 @ApiBearerAuth()

@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from '../prisma.service';
-import { generateHash } from '../utils/generate-hash';
+
 import { UserPresenter } from './user.presenter';
+import { PrismaService } from '../../prisma.service';
+import { generateHash } from '../../common/utils/generate-hash';
 
 @Injectable()
 export class UsersService {

@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { PrismaService } from '../prisma.service';
-import { generateUniqueCode } from '../utils/generate-unique-code';
+import { PrismaService } from '../../prisma.service';
+import { generateUniqueCode } from '../../common/utils/generate-unique-code';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { UrlPresenter } from './url.presenter';
 
