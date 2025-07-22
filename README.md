@@ -25,7 +25,7 @@ Este é um serviço de API REST para encurtamento de URLs, construído com NestJ
 
 ## Como Começar
 
-Para executar este projeto localmente, você precisará ter o Docker e o Docker Compose instalados.
+Para executar este projeto localmente, você precisará ter o Docker e o Docker Compose instalados juntamente com a versão 22.17 ou superior do Nodejs.
 
 **Clone o repositório:**
 
